@@ -5,7 +5,6 @@ import {
   NB_AUTH_OPTIONS,
   NbAuthService,
   NbAuthResult,
-  NbTokenStorage,
 } from '@nebular/auth';
 import { getDeepFromObject } from '../../helpers';
 import { EMAIL_PATTERN } from '../constants';
