@@ -85,12 +85,6 @@
     </p>
   </div>
 
-  <div class="form-control-group">
-    <button nbButton (click)="uploadFile()" [nbSpinner]="uploading">Upload Profile Picture</button>
-    <input type="file" style="display: none;" id="file-upload" ng2FileSelect [uploader]="uploader">
-    // TODO ADD VALIDATION MESSAGES
-  </div>
-
   <div class="form-control-group accept-group" *ngIf="getConfigValue('forms.register.terms')">
     <nb-checkbox formControlName="terms" [required]="getConfigValue('forms.register.terms')">
       Agree to <a routerLink="pages/terms-and-conditions" target="_blank"><strong>Terms & Conditions</strong></a>

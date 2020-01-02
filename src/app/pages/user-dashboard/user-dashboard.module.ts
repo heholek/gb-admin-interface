@@ -11,8 +11,6 @@ import {
   NbTreeGridModule,
 } from '@nebular/theme';
 import {ThemeModule} from '../../@theme/theme.module';
-import {Ng2SmartTableModule} from 'ng2-smart-table';
-import {FileUploadModule} from 'ng2-file-upload';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
@@ -43,8 +41,6 @@ const NB_MODULES = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng2SmartTableModule,
-    FileUploadModule,
     ...NB_MODULES,
   ],
 

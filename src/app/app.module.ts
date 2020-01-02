@@ -18,7 +18,6 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 
-import { MarkdownModule } from 'ngx-markdown';
 
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 
@@ -51,7 +50,6 @@ export function init_app(injector: Injector) {
     NbToastrModule.forRoot(),
     NbEvaIconsModule,
     CoreModule.forRoot(),
-    MarkdownModule.forRoot(),
   ],
   bootstrap: [AppComponent],
   providers: [

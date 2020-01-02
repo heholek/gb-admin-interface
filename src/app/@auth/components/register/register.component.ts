@@ -3,15 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   NB_AUTH_OPTIONS,
-  NbAuthSocialLink,
   NbAuthService,
   NbAuthResult,
   NbTokenStorage,
 } from '@nebular/auth';
 import { getDeepFromObject } from '../../helpers';
 import { EMAIL_PATTERN } from '../constants';
-import {FileUploader, FileUploaderOptions, ParsedResponseHeaders} from 'ng2-file-upload';
-import {environment} from '../../../../environments/environment';
 import {User} from '../../../@core/interfaces/common/users';
 
 @Component({
@@ -22,21 +19,16 @@ import {User} from '../../../@core/interfaces/common/users';
 })
 export class NgxRegisterComponent implements OnInit {
 
-  public uploader: FileUploader;
-  responses: Array<any>;
   profilePhoto: string = '';
   uploading: boolean;
-  uploaded = false;
 
   minLength: number = this.getConfigValue('forms.validation.password.minLength');
   maxLength: number = this.getConfigValue('forms.validation.password.maxLength');
-  isFullNameRequired: boolean = this.getConfigValue('forms.validation.fullName.required');
   isEmailRequired: boolean = this.getConfigValue('forms.validation.email.required');
   isPasswordRequired: boolean = this.getConfigValue('forms.validation.password.required');
   redirectDelay: number = this.getConfigValue('forms.register.redirectDelay');
   showMessages: any = this.getConfigValue('forms.register.showMessages');
   strategy: string = this.getConfigValue('forms.register.strategy');
-  socialLinks: NbAuthSocialLink[] = this.getConfigValue('forms.login.socialLinks');
 
   submitted = false;
   errors: string[] = [];
@@ -49,7 +41,6 @@ export class NgxRegisterComponent implements OnInit {
     protected cd: ChangeDetectorRef,
     private fb: FormBuilder,
     protected router: Router,
-    private tokenService: NbTokenStorage,
   ) { }
 
   get fullName() { return this.registerForm.get('fullName'); }
@@ -78,29 +69,6 @@ export class NgxRegisterComponent implements OnInit {
       confirmPassword: this.fb.control('', [...passwordValidators]),
       terms: this.fb.control(''),
     });
-
-    // Init File Uploader
-    const uploaderOptions: FileUploaderOptions = {
-      url: `${environment.apiUrl}/users/profilepicture`,
-      autoUpload: true,
-      isHTML5: true,
-      itemAlias: 'image',
-      authToken: 'Bearer ' + this.tokenService.get().getValue(),
-    };
-    this.uploader = new FileUploader(uploaderOptions);
-    this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-      fileItem.withCredentials = false;
-      return { fileItem };
-    };
-    this.uploader.onBeforeUploadItem = (fileItem => {
-      this.uploading = true;
-    });
-    this.uploader.onCompleteItem = (item: any, response: string, status: number, headers: ParsedResponseHeaders) => {
-      const data = JSON.parse(response);
-      this.uploading = false;
-      this.profilePhoto = data.profilePictureUrl;
-      this.uploaded = true;
-    };
   }
 
   uploadFile() {
