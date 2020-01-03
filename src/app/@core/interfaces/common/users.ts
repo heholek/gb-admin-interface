@@ -2,16 +2,13 @@ import { Observable } from 'rxjs';
 import { Settings } from './settings';
 
 export interface User {
-  id: string;
-  role: string;
+  _id: string;
+  name?: string;
   email: string;
-  age: number;
-  login: string;
-  picture: string;
-  address: Address;
-  settings: Settings;
-  themeName: string;
-  updates: Array<Update>;
+  role?: string;
+  settings?: Settings;
+  address?: Address;
+  updates?: Update[];
 }
 
 export interface Address {

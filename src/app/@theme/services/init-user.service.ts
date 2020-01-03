@@ -1,13 +1,9 @@
-import { UserData } from '../../@core/interfaces/common/users';
 import { UserStore } from '../../@core/stores/user.store';
 import { Injectable } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
 
 @Injectable()
 export class InitUserService {
-    constructor(protected userStore: UserStore,
-        protected usersService: UserData,
-        protected themeService: NbThemeService) { }
+    constructor(protected userStore: UserStore) { }
 
     initCurrentUser() {
         if (localStorage.getItem('gbUser')) {
