@@ -21,7 +21,6 @@ import { AuthModule } from '../@auth/auth.module';
 import {
   FooterComponent,
   HeaderComponent,
-  SearchInputComponent,
 } from './components';
 import {
   CapitalizePipe,
@@ -62,7 +61,6 @@ const NB_MODULES = [
 const COMPONENTS = [
   HeaderComponent,
   FooterComponent,
-  SearchInputComponent,
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
@@ -14,7 +14,6 @@ import { UserStore } from '../../../@core/stores/user.store';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>(); // Notes when the subject is destroyed
-  userPictureOnly: boolean = false; // If the user picture and username or just picture is displayued
   user: any; // User that is being displayed
 
   // Themes for the UI modes
@@ -46,8 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private menuService: NbMenuService,
               private themeService: NbThemeService,
               private userStore: UserStore,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+              private layoutService: LayoutService) {
   }
 
   // Gets menu items for the user dropdown
@@ -62,17 +60,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.user = this.userStore.getUser(); // Sets user to user form database
     this.userMenu = this.getMenuItems(); // Gets user information from menu
 
-    const { xl } = this.breakpointService.getBreakpointsMap(); // Gets breakpoints mapping
-    /**
-     * Runs when screen sized changes and tracks if to display the userpicutre only or all user info
-     *
-     */
-    this.themeService.onMediaQueryChange()
-      .pipe(
-        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
 
     /**
      * Tracks when the theme is changed, and sets the new theme when it is

@@ -1,33 +1,22 @@
 import { UserStore } from './user.store';
 import {User} from '../interfaces/common/users';
 
-const testUser: User = {
-    _id: 'test',
-    email: 'test',
-};
-
 describe('UserStore', () => {
-    let userStore;
+    const userStore = new UserStore();
+    const testUser: User = {
+        _id: 'test',
+        email: 'test',
+    };
 
-    beforeAll(() => {
-        userStore = new UserStore();
-    });
-
-    it('should set the user', () => {
-        userStore.setUser(testUser);
-    });
-
-    it('should get user', () => {
+    it('should set and get the user', async done => {
+        await userStore.setUser(testUser);
         expect(userStore.getUser()).toEqual(testUser);
+        done();
     });
 
-    it('should set settings with no settings inititalized', () => {
+    it('should set settings', () => {
+        userStore.setUser(testUser);
         userStore.setSetting('setting1');
         expect(userStore.getUser().settings.themeName).toBe('setting1');
-    });
-
-    it('should set settings with settings initialized', () => {
-        userStore.setSetting('setting2');
-        expect(userStore.getUser().settings.themeName).toBe('setting2');
     });
 });

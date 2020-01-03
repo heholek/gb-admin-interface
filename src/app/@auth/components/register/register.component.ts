@@ -18,7 +18,6 @@ import {User} from '../../../@core/interfaces/common/users';
 })
 export class NgxRegisterComponent implements OnInit {
 
-  profilePhoto: string = '';
   uploading: boolean;
 
   minLength: number = this.getConfigValue('forms.validation.password.minLength');
@@ -77,8 +76,6 @@ export class NgxRegisterComponent implements OnInit {
 
   register(): void {
     this.user = this.registerForm.value;
-    this.user.themeName = 'cosmic';
-    this.user.picture = this.profilePhoto;
     this.errors = this.messages = [];
     this.submitted = true;
 
