@@ -12,6 +12,10 @@ import {
 } from '@nebular/theme';
 import {ThemeModule} from '../../@theme/theme.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { GbListComponent } from './gb-list/gb-list.component';
+import { GbVideoComponent } from './gb-video/gb-video.component';
+import { GbMapComponent } from './gb-map/gb-map.component';
+import { GbSensorsComponent } from './gb-sensors/gb-sensors.component';
 
 
 const NB_MODULES = [
@@ -35,6 +39,10 @@ const NB_MODULES = [
 @NgModule({
   declarations: [
     UserDashboardComponent,
+    GbListComponent,
+    GbVideoComponent,
+    GbMapComponent,
+    GbSensorsComponent,
   ],
 
   imports: [
