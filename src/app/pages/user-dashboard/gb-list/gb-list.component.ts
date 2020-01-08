@@ -14,6 +14,6 @@ export class GbListComponent implements OnInit {
     this.userService.getUserGbs().subscribe(v => {
       // console.log(v);
     });
-  };
+  }
 
 }
