@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UsersService} from '../../../@core/backend/common/services/users.service';
 
 @Component({
   selector: 'ngx-gb-list',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GbListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService: UsersService) { }
 
   ngOnInit() {
-  }
+    this.userService.getUserGbs().subscribe(v => {
+      // console.log(v);
+    });
+  };
 
 }

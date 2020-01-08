@@ -22,6 +22,10 @@ export class UsersApi {
       })));
   }
 
+  getUserGbs(id: string): Observable<any> {
+    return this.api.get(`${this.apiController}/gbs/${id}`);
+  }
+
   get(id: string): Observable<any> {
     return this.api.get(`${this.apiController}/${id}`)
       .pipe(map(data => {

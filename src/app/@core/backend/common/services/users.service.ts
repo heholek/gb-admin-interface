@@ -2,11 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsersApi } from '../api/users.api';
 import { UserData, User } from '../../../interfaces/common/users';
+import {Gb} from '../../../interfaces/common/gb';
+import {UserStore} from '../../../stores/user.store';
 
 @Injectable()
 export class UsersService extends UserData {
 
-  constructor(private api: UsersApi) {
+  constructor(
+      private api: UsersApi,
+      private userStore: UserStore,
+  ) {
     super ();
   }
 
@@ -14,6 +19,13 @@ export class UsersService extends UserData {
     return this.api.list(pageNumber, pageSize);
   }
 
+  getUserGbs(id?: string): Observable<Gb[]> {
+    if (id !== undefined) {
+      return this.api.getUserGbs(id);
+    } else {
+      return this.api.getUserGbs(this.userStore.getUser()._id);
+    }
+  }
 
   get(id: string): Observable<User> {
     return this.api.get(id);
