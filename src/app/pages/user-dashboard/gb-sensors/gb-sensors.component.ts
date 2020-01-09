@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GbService} from '../../../@core/backend/common/services/gb.service';
 
 @Component({
   selector: 'ngx-gb-sensors',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GbSensorsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+      private gbService: GbService,
+  ) { }
 
   ngOnInit() {
   }

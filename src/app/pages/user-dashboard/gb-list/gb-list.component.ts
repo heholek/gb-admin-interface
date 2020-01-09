@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UsersService} from '../../../@core/backend/common/services/users.service';
 import {LocalDataSource} from 'ng2-smart-table';
+import {UserStore} from '../../../@core/stores/user.store';
 
 @Component({
   selector: 'ngx-gb-list',
@@ -31,7 +32,7 @@ export class GbListComponent implements OnInit {
       },
       statusCode: {
         title: 'Status Code',
-        type: 'string',
+        type: 'string', // TODO see below and change type to html
       },
       version: {
         title: 'Version',
@@ -42,13 +43,18 @@ export class GbListComponent implements OnInit {
 
   source: LocalDataSource;
 
-  constructor(private userService: UsersService) {
+  constructor(
+      private userService: UsersService,
+      private userStore: UserStore,
+      ) {
     this.source = new LocalDataSource();
   }
 
   ngOnInit() {
     this.userService.getUserGbs().subscribe(v => {
       if (v) {
+        this.userStore.setUserGbs(v);
+        // TODO add map here to change status codes into colored tabs
         this.source.load(v);
       }
     });
