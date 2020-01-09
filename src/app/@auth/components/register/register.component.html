@@ -25,7 +25,7 @@
             fieldSize="large"
             id="input-name"
             formControlName="fullName"
-            [status]="fullName.dirty ? (fullName.invalid  ? 'danger' : 'success') : ''"
+            [status]="fullName.dirty ? (fullName.invalid  ? 'danger' : 'success') : 'basic'"
             [attr.aria-invalid]="fullName.invalid && fullName.touched ? true : null"
             placeholder="Full name">
     <ngx-validation-message label="Full name" [showRequired]="fullName?.errors?.required && fullName.touched">
@@ -40,7 +40,7 @@
             fieldSize="large"
             id="input-email"
             formControlName="email"
-            [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+            [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
             [attr.aria-invalid]="email.invalid && email.touched ? true : null"
             placeholder="Email address">
     <ngx-validation-message label="Email address" [showPattern]="email?.hasError('pattern') && email.touched"
@@ -55,7 +55,7 @@
             id="input-password"
             formControlName="password"
             type="password"
-            [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+            [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
             placeholder="Password">
     <ngx-validation-message label="Password" [showMinLength]="password?.hasError('minlength') && password.touched"
       [showMaxLength]="password?.hasError('maxlength') && password.touched"
@@ -72,7 +72,7 @@
             id="input-re-password"
             formControlName="confirmPassword"
             type="password"
-            [status]="confirmPassword.dirty ? (confirmPassword.invalid || password.value != confirmPassword.value  ? 'danger' : 'success') : ''"
+            [status]="confirmPassword.dirty ? (confirmPassword.invalid || password.value != confirmPassword.value  ? 'danger' : 'success') : 'basic'"
             placeholder="Password">
     <ngx-validation-message label="Confirm Password"
       [showMinLength]="confirmPassword?.hasError('minlength') && confirmPassword.touched"

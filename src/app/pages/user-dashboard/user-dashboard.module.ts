@@ -15,6 +15,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { GbListComponent } from './gb-list/gb-list.component';
 import { GbVideoComponent } from './gb-video/gb-video.component';
 import { GbMapComponent } from './gb-map/gb-map.component';
+import {Ng2SmartTableModule} from 'ng2-smart-table';
 import { GbSensorsComponent } from './gb-sensors/gb-sensors.component';
 
 
@@ -49,6 +50,7 @@ const NB_MODULES = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    Ng2SmartTableModule,
     ...NB_MODULES,
   ],
 
