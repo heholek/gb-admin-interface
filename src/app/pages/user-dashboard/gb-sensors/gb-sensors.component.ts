@@ -10,7 +10,9 @@ export class GbSensorsComponent implements OnInit {
 
   constructor(
       private gbService: GbService,
-  ) { }
+  ) {
+    this.gbService.listenToUserGbs();
+  }
 
   ngOnInit() {
   }
