@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {NbAuthService} from '@nebular/auth';
 import {UserStore} from '../../../stores/user.store';
 import {Observable, Subject} from 'rxjs';
-import {GbData} from '../../../interfaces/common/gb';
+import {NbToastrService} from '@nebular/theme';
 
 const io = require('socket.io-client');
 
@@ -11,9 +11,38 @@ const io = require('socket.io-client');
 })
 export class GbService {
 
-  private socket: any;
+  // Array of gbs with key of username
+  private gbs: ILooseObject = {};
 
-  private dataStreams = {
+  constructor(
+      private authService: NbAuthService,
+      private userStore: UserStore,
+      private toastrService: NbToastrService,
+  ) {
+
+  }
+
+  // Listen to all the Gbs
+  public listenToUserGbs() {
+    // Check if user authenticated
+    if (this.authService.isAuthenticated()) {
+      this.userStore.getUserGbs().forEach(gb => {
+        // Get all stored Gbs from the user and create new instance of Gb class
+        this.gbs[gb.username] = new Gb(gb._id, this.toastrService);
+      });
+    }
+  }
+}
+
+/**
+ * Describes each Garbage Byte with all of its data and initializes it
+ */
+class Gb {
+
+  /**
+   * All available ROS data streams
+   */
+  public dataStreams = {
     test: new GbDataStreams<IRosNumber>('test'),
     rWheelEncoder: new GbDataStreams<IRosNumber>('rwheel_encoder'),
     lWheelEncoder: new GbDataStreams<IRosNumber>('lwheel_encoder'),
@@ -27,71 +56,88 @@ export class GbService {
     angle: new GbDataStreams<IRosNumber>('angle'),
     numberOfSatellites: new GbDataStreams<IRosNumber>('number_of_satellites'),
   };
+  private socket: any; // Socket.io instance
+  private readonly _gbId: string; // id of gb
+
+  get gbId(): string {
+    return this._gbId;
+  }
 
   constructor(
-      private authService: NbAuthService,
-      private userStore: UserStore,
+      public inputGbId: string, // Wto set id
+      private toastrService: NbToastrService,
   ) {
+    this._gbId = inputGbId;
 
-  }
-
-  public listenToUserGbs() {
-    if (this.authService.isAuthenticated()) {
-      this.userStore.getUserGbs().forEach(gb => {
-        this.listenToGbPorts(gb._id);
-      });
-    }
-  }
-
-
-  private listenToGbPorts(gbId: string) {
-    this.socket = io(`http://localhost:8000/${gbId}`, {
+    // Connect to socket stream
+    this.socket = io(`http://localhost:8000/${this._gbId}`, {
       query: { role: 'gb', username: 'gb2', password: 'gb' },
     });
-    this.socket.on('connection', v => {
-      // console.log(v);
+    this.socket.on('connect', v => {
+      this.toastrService.success('Click to dismiss', `Gb ${this._gbId} connected`);
     });
     this.socket.on('error', v => {
-      // console.log(v);
+      this.toastrService.danger(``, `Gb ${this._gbId} not connected :(`);
     });
-    this.socket.on('test', data => {
-      // console.log(data);
-    });
+
+    this.listenToGbPorts();
+  }
+
+  /**
+   * Go through all the datakeys and create data listeners publishing to each subject in datastreams
+   */
+  private listenToGbPorts() {
     for (const dataStreamsKey in this.dataStreams) {
+      // Check if dataStreamsKey exists on this.datastream
       if (this.dataStreams.hasOwnProperty(dataStreamsKey)) {
+        // Subscribe to data from socket.io stream
         this.socket.on(this.dataStreams[dataStreamsKey].key, data => {
-          // console.log(data);
+          // Update key in datastreams object
+          this.dataStreams[dataStreamsKey].updateData(data);
         });
       }
     }
   }
 }
 
+/**
+ * Interface for keeping track of each datastream on the Gb
+ */
 class GbDataStreams<T> {
 
   private _key: string;
-  private data: Subject<T>;
+  private _data: Subject<T>;
 
   get key(): string {
     return this._key;
   }
 
+  // Return data as observable
+  get data(): Observable<T> {
+    return this._data.asObservable();
+  }
+
   constructor(key: string) {
     this._key = key;
-    this.data = new Subject();
+    this._data = new Subject();
   }
 
+  // Update the subject
   public updateData(data: T) {
-    this.data.next(data);
+    this._data.next(data);
   }
 }
-
+// ROS integer interface
 interface IRosNumber {
   data: number;
 }
-
+// ROS satellite interface
 interface INavSatFix {
   latitude: number;
   longitude: number;
   altitude: number;
+}
+// Loose object for defining object of Gbs
+interface ILooseObject {
+  [key: string]: Gb;
 }

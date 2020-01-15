@@ -5,6 +5,7 @@ import { UsersService } from './services/users.service';
 import { UsersApi } from './api/users.api';
 import { HttpService } from './api/http.service';
 import { NbAuthModule } from '@nebular/auth';
+import {NbToastrModule, NbToastrService} from '@nebular/theme';
 
 const API = [UsersApi, HttpService];
 
@@ -13,7 +14,10 @@ const SERVICES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, NbAuthModule],
+  imports: [
+    CommonModule,
+    NbAuthModule,
+  ],
 })
 export class CommonBackendModule {
   static forRoot(): ModuleWithProviders {
