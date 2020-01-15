@@ -6,7 +6,7 @@ import {
   NbCardModule,
   NbIconModule,
   NbInputModule,
-  NbListModule, NbStepperModule,
+  NbListModule, NbSelectModule, NbStepperModule,
   NbTableModule, NbToastrModule,
   NbTreeGridModule,
 } from '@nebular/theme';
@@ -35,6 +35,7 @@ const NB_MODULES = [
   NbInputModule,
   NbStepperModule,
   NbAlertModule,
+  NbSelectModule,
 ];
 
 @NgModule({

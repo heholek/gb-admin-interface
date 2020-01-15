@@ -12,7 +12,11 @@ const io = require('socket.io-client');
 export class GbService {
 
   // Array of gbs with key of username
-  private gbs: ILooseObject = {};
+  private _gbs: IGbs = {};
+
+  get gbs(): IGbs {
+    return this._gbs;
+  }
 
   constructor(
       private authService: NbAuthService,
@@ -28,7 +32,7 @@ export class GbService {
     if (this.authService.isAuthenticated()) {
       this.userStore.getUserGbs().forEach(gb => {
         // Get all stored Gbs from the user and create new instance of Gb class
-        this.gbs[gb.username] = new Gb(gb._id, this.toastrService);
+        this._gbs[gb.username] = new Gb(gb._id, gb.username, this.toastrService);
       });
     }
   }
@@ -57,27 +61,22 @@ class Gb {
     numberOfSatellites: new GbDataStreams<IRosNumber>('number_of_satellites'),
   };
   private socket: any; // Socket.io instance
-  private readonly _gbId: string; // id of gb
-
-  get gbId(): string {
-    return this._gbId;
-  }
 
   constructor(
-      public inputGbId: string, // Wto set id
+      public id: string, // Wto set id
+      public username: string,
       private toastrService: NbToastrService,
   ) {
-    this._gbId = inputGbId;
 
     // Connect to socket stream
-    this.socket = io(`http://localhost:8000/${this._gbId}`, {
+    this.socket = io(`http://localhost:8000/${this.id}`, {
       query: { role: 'gb', username: 'gb2', password: 'gb' },
     });
     this.socket.on('connect', v => {
-      this.toastrService.success('Click to dismiss', `Gb ${this._gbId} connected`);
+      this.toastrService.success('Click to dismiss', `Gb ${this.id} connected`);
     });
     this.socket.on('error', v => {
-      this.toastrService.danger(``, `Gb ${this._gbId} not connected :(`);
+      this.toastrService.danger(``, `Gb ${this.id} not connected :(`);
     });
 
     this.listenToGbPorts();
@@ -138,6 +137,6 @@ interface INavSatFix {
   altitude: number;
 }
 // Loose object for defining object of Gbs
-interface ILooseObject {
+export interface IGbs {
   [key: string]: Gb;
 }
