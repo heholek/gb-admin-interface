@@ -17,6 +17,7 @@ import { GbVideoComponent } from './gb-video/gb-video.component';
 import { GbMapComponent } from './gb-map/gb-map.component';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import { GbSensorsComponent } from './gb-sensors/gb-sensors.component';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 
 
 const NB_MODULES = [
@@ -52,6 +53,7 @@ const NB_MODULES = [
     FormsModule,
     ReactiveFormsModule,
     Ng2SmartTableModule,
+    LeafletModule,
     ...NB_MODULES,
   ],
 

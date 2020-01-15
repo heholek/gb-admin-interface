@@ -20,6 +20,7 @@ import {
 
 
 import {NbEvaIconsModule} from '@nebular/eva-icons';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 
 export function init_app(injector: Injector) {
   return () =>
@@ -43,6 +44,7 @@ export function init_app(injector: Injector) {
     ThemeModule.forRoot(),
     AuthModule.forRoot(),
 
+    LeafletModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDialogModule.forRoot(),
