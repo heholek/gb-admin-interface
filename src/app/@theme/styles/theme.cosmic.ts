@@ -4,5 +4,5 @@ const baseThemeVariables = baseTheme.variables;
 
 export const COSMIC_THEME = {
   name: 'cosmic',
-  base: 'cosmic'
+  base: 'cosmic',
 } as NbJSThemeOptions;

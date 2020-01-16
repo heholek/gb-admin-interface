@@ -1,15 +1,17 @@
 <nb-card size="medium">
     <nb-card-header class="d-flex justify-content-between">
         <span class="mt-2">Live Sensor Data</span>
-        <nb-select placeholder="Placeholder" [(selected)]="objectKeys(gbs)[0]" (selectedChange)="userSelect($event)">
+        <nb-select placeholder="Gb Name" [(selected)]="objectKeys(gbs)[0]" (selectedChange)="userSelect($event)" *ngIf="gbs">
             <nb-option *ngFor="let gb of objectKeys(gbs)" [value]="gbs[gb].username">{{ gbs[gb].username}}</nb-option>
         </nb-select>
     </nb-card-header>
     <nb-card-body>
-        <nb-list>
+        <nb-list *ngIf="dataStreams">
             <nb-list-item *ngFor="let dataStreamKey of objectKeys(dataStreams)" class="d-flex justify-content-between">
                 <span>{{dataStreamKey}}: </span>
-                <span class="bold">{{ data[dataStreamKey] || "Waiting..."}}</span></nb-list-item>
+                <span class="bold">{{ data[dataStreamKey] || "Waiting..."}}</span>
+            </nb-list-item>
         </nb-list>
+        <nb-alert status="danger" *ngIf="!gbs">No gbs found for user!</nb-alert>
     </nb-card-body>
 </nb-card>
