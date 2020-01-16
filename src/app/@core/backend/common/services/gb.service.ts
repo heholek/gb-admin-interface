@@ -29,7 +29,7 @@ export class GbService {
   // Listen to all the Gbs
   public listenToUserGbs() {
     // Check if user authenticated
-    if (this.authService.isAuthenticated()) {
+    if (this.authService.isAuthenticated() && this.userStore.getUserGbs()) {
       this.userStore.getUserGbs().forEach(gb => {
         // Get all stored Gbs from the user and create new instance of Gb class
         this._gbs[gb.username] = new Gb(gb._id, gb.username, this.toastrService);
@@ -73,10 +73,10 @@ class Gb {
       query: { role: 'gb', username: 'gb2', password: 'gb' },
     });
     this.socket.on('connect', v => {
-      this.toastrService.success('Click to dismiss', `Gb ${this.id} connected`);
+      this.toastrService.success('${this.id} ', `Gb connected`);
     });
     this.socket.on('error', v => {
-      this.toastrService.danger(``, `Gb ${this.id} not connected :(`);
+      this.toastrService.danger(`${this.id} `, `Gb not connected :(`);
     });
 
     this.listenToGbPorts();
