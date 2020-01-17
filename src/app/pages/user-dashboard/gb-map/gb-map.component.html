@@ -1,12 +1,39 @@
 <nb-card size="giant">
     <nb-card-body>
+        <div class="row action-buttons">
+            <div class="col-6">
+                <h3>Overall Actions</h3>
+                <button nbButton status="success">All Home</button>
+                <button nbButton status="warning">System Disable</button>
+                <button nbButton status="danger">Shutdown</button>
+            </div>
+            <div class="col-6">
+                <nb-select>
+                    <nb-option [value]="12">Test</nb-option>
+                </nb-select>
+                <nb-badge status="basic">Line Color</nb-badge>
+                <button nbButton
+                        (click)="toggleEditMode()"
+                        [status]="buttonStatus(editMode)"
+                        [disabled]="!existingLine('gb1')"
+                >Edit points</button>
+                <button nbButton
+                        (click)="toggleAddMode()"
+                        [status]="buttonStatus(addMode)"
+                        [disabled]="existingLine('gb1')"
+                >Add points</button>
+                <button nbButton
+                        (click)="clearPath('gb1')"
+                        status="danger"
+                        [disabled]="!existingLine('gb1')"
+                >Clear Path</button>
+            </div>
+        </div>
         <div class="leaflet"
             leaflet
-            leafletDraw
             [leafletOptions]="options"
-            [leafletLayers]="layers"
-            [leafletDrawOptions]="drawOptions"
-            (leafletDrawCreated)="handleDrawEvents($event)"
+            [leafletLayers]="polyLineLayersAsArray"
+            (leafletClick)="handleClick($event)"
         >
         </div>
     </nb-card-body>

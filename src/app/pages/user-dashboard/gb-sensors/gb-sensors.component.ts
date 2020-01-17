@@ -41,17 +41,19 @@ export class GbSensorsComponent implements OnInit {
    */
   initDataStream(selectedGb: string) {
     // Sets current datastream to the selected gb datastream
-    this.dataStreams = this.gbs[selectedGb].dataStreams;
-    // Initializes subscribers
-    for (const dataStreamsKey in this.dataStreams) {
-      // Sets to list of subscribers for unsubcription later
-      this.subscriber[dataStreamsKey] = this.dataStreams[dataStreamsKey].data.subscribe(v => {
-        if (dataStreamsKey === 'position') {
-          this.data[dataStreamsKey] = JSON.stringify(v);
-        } else {
-          this.data[dataStreamsKey] = v.data;
-        }
-      });
+    if (this.dataStreams = this.gbs[selectedGb]) {
+      this.dataStreams = this.gbs[selectedGb].dataStreams;
+      // Initializes subscribers
+      for (const dataStreamsKey in this.dataStreams) {
+        // Sets to list of subscribers for unsubcription later
+        this.subscriber[dataStreamsKey] = this.dataStreams[dataStreamsKey].data.subscribe(v => {
+          if (dataStreamsKey === 'position') {
+            this.data[dataStreamsKey] = JSON.stringify(v);
+          } else {
+            this.data[dataStreamsKey] = v.data;
+          }
+        });
+      }
     }
   }
 

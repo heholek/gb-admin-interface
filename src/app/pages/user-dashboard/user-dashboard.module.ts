@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserDashboardComponent } from './user-dashboard.component';
 import {
-  NbAlertModule, NbButtonModule,
+  NbAlertModule, NbBadgeModule, NbButtonModule,
   NbCardModule,
   NbIconModule,
   NbInputModule,
@@ -57,6 +57,7 @@ const NB_MODULES = [
     LeafletModule,
     LeafletDrawModule,
     ...NB_MODULES,
+    NbBadgeModule,
   ],
 
   providers: [

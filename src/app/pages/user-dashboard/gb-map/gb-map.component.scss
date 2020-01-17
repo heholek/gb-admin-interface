@@ -1,7 +1,23 @@
 @import '../../../@theme/styles/themes';
+@import '~bootstrap';
 
 @include nb-install-component() {
   .leaflet {
-    height: 500px;
+    height: 700px;
+    @extend .rounded
+  }
+
+  .stackedButton {
+    @extend .d-block;
+    @extend .px-3;
+    @extend .my-3;
+  }
+
+  .action-buttons button {
+    @extend .stackedButton
+  }
+
+  .size-giant {
+    height: 59.7rem !important;
   }
 }

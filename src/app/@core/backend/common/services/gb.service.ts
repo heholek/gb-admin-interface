@@ -72,14 +72,14 @@ class Gb {
     this.socket = io(`http://localhost:8000/${this.id}`, {
       query: { role: 'gb', username: 'gb2', password: 'gb' },
     });
-    this.socket.on('connect', v => {
-      this.toastrService.success('${this.id} ', `Gb connected`);
-    });
     this.socket.on('error', v => {
       this.toastrService.danger(`${this.id} `, `Gb not connected :(`);
     });
+    this.socket.on('connect', v => {
+      this.toastrService.success('${this.id} ', `Gb connected`);
+      this.listenToGbPorts();
+    });
 
-    this.listenToGbPorts();
   }
 
   /**
