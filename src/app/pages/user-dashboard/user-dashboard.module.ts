@@ -18,6 +18,7 @@ import { GbMapComponent } from './gb-map/gb-map.component';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import { GbSensorsComponent } from './gb-sensors/gb-sensors.component';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import {LeafletDrawModule} from '@asymmetrik/ngx-leaflet-draw';
 
 
 const NB_MODULES = [
@@ -54,6 +55,7 @@ const NB_MODULES = [
     ReactiveFormsModule,
     Ng2SmartTableModule,
     LeafletModule,
+    LeafletDrawModule,
     ...NB_MODULES,
   ],
 
