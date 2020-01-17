@@ -2,7 +2,12 @@
     <nb-card-body>
         <div class="leaflet"
             leaflet
-             [leafletOptions]="options">
+            leafletDraw
+            [leafletOptions]="options"
+            [leafletLayers]="layers"
+            [leafletDrawOptions]="drawOptions"
+            (leafletDrawCreated)="handleDrawEvents($event)"
+        >
         </div>
     </nb-card-body>
 </nb-card>
