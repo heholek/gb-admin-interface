@@ -5,7 +5,8 @@
   .leaflet {
     height: 700px;
 
-    @extend .rounded; }
+    @extend .rounded;
+  }
 
   .action-buttons button {
     @extend .d-block;
@@ -16,7 +17,6 @@
   .size-giant {
     height: 59.7rem !important;
   }
-
 
   .color-label {
     padding: 11px 16px !important;

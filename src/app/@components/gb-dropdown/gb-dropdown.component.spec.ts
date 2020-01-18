@@ -8,7 +8,7 @@ describe('GbDropdownComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GbDropdownComponent ]
+      declarations: [ GbDropdownComponent ],
     })
     .compileComponents();
   }));
