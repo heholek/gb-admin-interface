@@ -22,6 +22,7 @@ import {
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {LeafletDrawModule} from '@asymmetrik/ngx-leaflet-draw';
+import {GbService} from './@core/backend/common/services/gb.service';
 
 export function init_app(injector: Injector) {
   return () =>

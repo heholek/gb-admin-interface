@@ -9,8 +9,9 @@ import {
   Polyline,
   LeafletEvent,
   LeafletMouseEvent,
-  LatLng
+  LatLng,
 } from 'leaflet';
+import {GbService, IGbs} from '../../../@core/backend/common/services/gb.service';
 
 @Component({
   selector: 'ngx-gb-map',
@@ -37,11 +38,18 @@ export class GbMapComponent implements OnInit {
 
   editMode: boolean = false;
   addMode: boolean = false;
+  gbs: IGbs;
   selectedGb: string = 'gb1';
+  objectKeys = Object.keys;
 
-  constructor() { }
+  constructor(
+      private gbService: GbService,
+  ) {
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.gbs = this.gbService.gbs;
+  }
 
   public buttonStatus(mode: boolean) {
     return (mode ? 'success' : 'danger');
@@ -62,15 +70,19 @@ export class GbMapComponent implements OnInit {
     if (this.editMode) {
       this.polyLineLayers.gb1.addLatLng(event.latlng);
     } else if (this.addMode) {
-      if (!this.firstSelected) {
-        this.firstSelected = event.latlng;
-      } else if (this.firstSelected && !this.secondSelected) {
-        this.secondSelected = event.latlng;
-        this.polyLineLayers[this.selectedGb] = polyline([this.firstSelected, this.secondSelected]);
-        this.firstSelected = undefined;
-        this.secondSelected = undefined;
-        this.toggleAddMode();
-      }
+      this.addPolyLne(event.latlng);
+    }
+  }
+
+  private addPolyLne(latlng: LatLng) {
+    if (!this.firstSelected) {
+      this.firstSelected = latlng;
+    } else if (this.firstSelected && !this.secondSelected) {
+      this.secondSelected = latlng;
+      this.polyLineLayers[this.selectedGb] = polyline([this.firstSelected, this.secondSelected]);
+      this.firstSelected = undefined;
+      this.secondSelected = undefined;
+      this.toggleAddMode();
     }
   }
 
@@ -80,6 +92,10 @@ export class GbMapComponent implements OnInit {
 
   public clearPath(gb: string) {
     delete this.polyLineLayers[gb];
+  }
+
+  public userSelect(selectedGb: string) {
+    this.selectedGb = selectedGb;
   }
 
 }

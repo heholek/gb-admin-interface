@@ -16,14 +16,14 @@ export class GbSensorsComponent implements OnInit {
 
   constructor(
       private gbService: GbService,
-  ) {
-    this.gbService.listenToUserGbs();
-    this.gbs = this.gbService.gbs;
-  }
+  ) { }
 
   ngOnInit() {
     // Initialize the first Gb in the set
-    this.initDataStream(this.objectKeys(this.gbs)[0]);
+    this.gbs = this.gbService.gbs;
+    if (this.gbs !== {}) {
+      this.initDataStream(this.objectKeys(this.gbs)[0]);
+    }
   }
 
   /**
@@ -39,28 +39,32 @@ export class GbSensorsComponent implements OnInit {
    * Inits the dataStream of the gb
    * @param selectedGb username
    */
-  initDataStream(selectedGb: string) {
+  private initDataStream(selectedGb: string) {
     // Sets current datastream to the selected gb datastream
-    if (this.dataStreams = this.gbs[selectedGb]) {
+    if (this.gbs[selectedGb]) { // Check if the gb is stored
       this.dataStreams = this.gbs[selectedGb].dataStreams;
       // Initializes subscribers
-      for (const dataStreamsKey in this.dataStreams) {
-        // Sets to list of subscribers for unsubcription later
-        this.subscriber[dataStreamsKey] = this.dataStreams[dataStreamsKey].data.subscribe(v => {
-          if (dataStreamsKey === 'position') {
-            this.data[dataStreamsKey] = JSON.stringify(v);
-          } else {
-            this.data[dataStreamsKey] = v.data;
-          }
-        });
-      }
+      this.initializeDataSubscribers();
+    }
+  }
+
+  private initializeDataSubscribers() {
+    for (const dataStreamsKey in this.dataStreams) {
+      // Sets to list of subscribers for unsubcription later
+      this.subscriber[dataStreamsKey] = this.dataStreams[dataStreamsKey].data.subscribe(v => {
+        if (dataStreamsKey === 'position') {
+          this.data[dataStreamsKey] = JSON.stringify(v);
+        } else {
+          this.data[dataStreamsKey] = v.data;
+        }
+      });
     }
   }
 
   /**
    * Resets values subscriptions from current GB before changing to new one
    */
-  clearSubscriptions() {
+  private clearSubscriptions() {
     for (const key in this.subscriber) {
       this.data[key] = undefined;
       this.subscriber[key].unsubscribe();

@@ -3,30 +3,38 @@
         <div class="row action-buttons">
             <div class="col-6">
                 <h3>Overall Actions</h3>
-                <button nbButton status="success">All Home</button>
-                <button nbButton status="warning">System Disable</button>
-                <button nbButton status="danger">Shutdown</button>
+                <button nbButton status="success" class="w-50">All Home</button>
+                <button nbButton status="warning" class="w-50">System Disable</button>
+                <button nbButton status="danger" class="w-50">Shutdown</button>
             </div>
             <div class="col-6">
-                <nb-select>
-                    <nb-option [value]="12">Test</nb-option>
-                </nb-select>
-                <nb-badge status="basic">Line Color</nb-badge>
-                <button nbButton
-                        (click)="toggleEditMode()"
-                        [status]="buttonStatus(editMode)"
-                        [disabled]="!existingLine('gb1')"
-                >Edit points</button>
-                <button nbButton
-                        (click)="toggleAddMode()"
-                        [status]="buttonStatus(addMode)"
-                        [disabled]="existingLine('gb1')"
-                >Add points</button>
-                <button nbButton
-                        (click)="clearPath('gb1')"
-                        status="danger"
-                        [disabled]="!existingLine('gb1')"
-                >Clear Path</button>
+                <div class="row">
+                    <div class="col-6">
+                        <ngx-gb-dropdown (selectedGb)="userSelect($event)"></ngx-gb-dropdown>
+                        <button nbButton
+                                class="w-100"
+                                (click)="toggleEditMode()"
+                                [status]="buttonStatus(editMode)"
+                                [disabled]="!existingLine('gb1')"
+                        >Edit path</button>
+                        <button nbButton
+                                class="w-100"
+                                (click)="toggleAddMode()"
+                                [status]="buttonStatus(addMode)"
+                                [disabled]="existingLine('gb1')"
+                        >Add points</button>
+                        <button nbButton
+                                class="w-100"
+                                (click)="clearPath('gb1')"
+                                status="danger"
+                                [disabled]="!existingLine('gb1')"
+                        >Clear Path</button>
+                    </div>
+                    <div class="col-6">
+                        <nb-alert status="info" class="color-label text-center">Color</nb-alert>
+                        <button nbButton status="primary" class="w-100">Send action to GB</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="leaflet"

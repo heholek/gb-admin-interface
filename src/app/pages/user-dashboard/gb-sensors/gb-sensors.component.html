@@ -1,9 +1,7 @@
 <nb-card size="medium">
     <nb-card-header class="d-flex justify-content-between">
         <span class="mt-2">Live Sensor Data</span>
-        <nb-select placeholder="Gb Name" [(selected)]="objectKeys(gbs)[0]" (selectedChange)="userSelect($event)" *ngIf="gbs">
-            <nb-option *ngFor="let gb of objectKeys(gbs)" [value]="gbs[gb].username">{{ gbs[gb].username}}</nb-option>
-        </nb-select>
+        <ngx-gb-dropdown (selectedGb)="userSelect($event)"></ngx-gb-dropdown>
     </nb-card-header>
     <nb-card-body>
         <nb-list *ngIf="dataStreams">
@@ -12,6 +10,7 @@
                 <span class="bold">{{ data[dataStreamKey] || "Waiting..."}}</span>
             </nb-list-item>
         </nb-list>
+        <nb-alert status="warning" *ngIf="!dataStreams">Hmm... No data found. Try reselecting the Gb</nb-alert>
         <nb-alert status="danger" *ngIf="!gbs">No gbs found for user!</nb-alert>
     </nb-card-body>
 </nb-card>

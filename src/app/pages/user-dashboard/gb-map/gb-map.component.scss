@@ -4,20 +4,21 @@
 @include nb-install-component() {
   .leaflet {
     height: 700px;
-    @extend .rounded
-  }
 
-  .stackedButton {
+    @extend .rounded; }
+
+  .action-buttons button {
     @extend .d-block;
     @extend .px-3;
     @extend .my-3;
   }
 
-  .action-buttons button {
-    @extend .stackedButton
-  }
-
   .size-giant {
     height: 59.7rem !important;
+  }
+
+
+  .color-label {
+    padding: 11px 16px !important;
   }
 }
