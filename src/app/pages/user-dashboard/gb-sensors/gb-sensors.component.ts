@@ -8,11 +8,11 @@ import {GbService, IGbs} from '../../../@core/backend/common/services/gb.service
 })
 export class GbSensorsComponent implements OnInit {
 
-  objectKeys = Object.keys;
-  gbs: IGbs;
-  dataStreams: any;
-  data = {};
-  subscriber = {};
+  objectKeys = Object.keys; // Method to convert objects into array of keys
+  gbs: IGbs; // List of Gbs
+  dataStreams: any; // Datastreams from the gb
+  data = {}; // Data for display
+  subscriber = {}; // Object of observables to track whats online and whats offline
 
   constructor(
       private gbService: GbService,
@@ -20,7 +20,9 @@ export class GbSensorsComponent implements OnInit {
 
   ngOnInit() {
     // Initialize the first Gb in the set
-    this.gbs = this.gbService.gbs;
+    this.gbService.gbs.subscribe(v => {
+      this.gbs = v;
+    });
     if (this.gbs !== {}) {
       this.initDataStream(this.objectKeys(this.gbs)[0]);
     }

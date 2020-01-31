@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 export interface Gb {
   _id: string;
   username: string; // Name of Gb
+  color: string; // Color of the gb on map
   statusCode?: number; // Last known status of Gb
   location?: string; // Current location
   updatedAt?: string; // When updated

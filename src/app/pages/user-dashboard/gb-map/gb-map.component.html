@@ -1,11 +1,17 @@
 <nb-card size="giant">
     <nb-card-body>
         <div class="row action-buttons">
-            <div class="col-6">
+            <div class="col-3">
                 <h3>Overall Actions</h3>
-                <button nbButton status="success" class="w-50">All Home</button>
-                <button nbButton status="warning" class="w-50">System Disable</button>
-                <button nbButton status="danger" class="w-50">Shutdown</button>
+                <button nbButton status="success">All Home</button>
+                <button nbButton status="warning">System Disable</button>
+                <button nbButton status="danger">Shutdown</button>
+            </div>
+            <div class="col-3">
+                <h4>Color Key</h4>
+                <div *ngFor="let gb of objectKeys(gbs)" class="float-left d-flex">
+                    <div [style.background-color]="gbs[gb].color" class="gb-map-key m-2">{{ gbs[gb].username }}</div>
+                </div>
             </div>
             <div class="col-6">
                 <div class="row">
@@ -15,24 +21,24 @@
                                 class="w-100"
                                 (click)="toggleEditMode()"
                                 [status]="buttonStatus(editMode)"
-                                [disabled]="!existingLine('gb1')"
+                                [disabled]="!existingLine(this.selectedGb)"
                         >Edit path</button>
                         <button nbButton
                                 class="w-100"
                                 (click)="toggleAddMode()"
                                 [status]="buttonStatus(addMode)"
-                                [disabled]="existingLine('gb1')"
+                                [disabled]="existingLine(this.selectedGb)"
                         >Add points</button>
                         <button nbButton
                                 class="w-100"
-                                (click)="clearPath('gb1')"
+                                (click)="clearPath(this.selectedGb)"
                                 status="danger"
-                                [disabled]="!existingLine('gb1')"
+                                [disabled]="!existingLine(this.selectedGb)"
                         >Clear Path</button>
                     </div>
                     <div class="col-6">
-                        <nb-alert status="info" class="color-label text-center">Color</nb-alert>
-                        <button nbButton status="primary" class="w-100">Send action to GB</button>
+                        <nb-alert [style.background-color]="gbs[selectedGb].color" class="color-label text-center">Color</nb-alert>
+                        <button nbButton status="primary" class="w-100" (click)="sendAction()">Send action to GB</button>
                     </div>
                 </div>
             </div>
@@ -40,7 +46,7 @@
         <div class="leaflet"
             leaflet
             [leafletOptions]="options"
-            [leafletLayers]="polyLineLayersAsArray"
+            [leafletLayers]="getGbPathsAsArray"
             (leafletClick)="handleClick($event)"
         >
         </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {NbAuthService} from '@nebular/auth';
 import {UserStore} from '../../../stores/user.store';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {NbToastrService} from '@nebular/theme';
 
 const io = require('socket.io-client');
@@ -12,10 +12,10 @@ const io = require('socket.io-client');
 export class GbService {
 
   // Array of gbs with key of username
-  private _gbs: IGbs = {};
+  private _gbs: BehaviorSubject<IGbs> = new BehaviorSubject<IGbs>({});
 
-  get gbs(): IGbs {
-    return this._gbs;
+  get gbs(): Observable<IGbs> {
+    return this._gbs.asObservable();
   }
 
   constructor(
@@ -30,10 +30,13 @@ export class GbService {
   public listenToUserGbs() {
     // Check if user authenticated
     if (this.authService.isAuthenticated() && this.userStore.getUserGbs()) {
+      // tslint:disable-next-line:prefer-const
+      let newObject: IGbs = {};
       this.userStore.getUserGbs().forEach(gb => {
         // Get all stored Gbs from the user and create new instance of Gb class
-        this._gbs[gb.username] = new Gb(gb._id, gb.username, this.toastrService);
+        newObject[gb.username] = new Gb(gb._id, gb.username, gb.color, this.toastrService);
       });
+      this._gbs.next(newObject);
     }
   }
 }
@@ -47,7 +50,6 @@ class Gb {
    * All available ROS data streams
    */
   public dataStreams = {
-    test: new GbDataStreams<IRosNumber>('test'),
     rWheelEncoder: new GbDataStreams<IRosNumber>('rwheel_encoder'),
     lWheelEncoder: new GbDataStreams<IRosNumber>('lwheel_encoder'),
     distanceFront: new GbDataStreams<IRosNumber>('distance_front'),
@@ -60,11 +62,13 @@ class Gb {
     angle: new GbDataStreams<IRosNumber>('angle'),
     numberOfSatellites: new GbDataStreams<IRosNumber>('number_of_satellites'),
   };
+
   private socket: any; // Socket.io instance
 
   constructor(
       public id: string, // Wto set id
       public username: string,
+      public color: string, // color of the gb on the map
       private toastrService: NbToastrService,
   ) {
 

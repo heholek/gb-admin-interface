@@ -21,4 +21,16 @@
   .color-label {
     padding: 11px 16px !important;
   }
+
+  .gb-map-key {
+    font-weight: bold;
+    width: 4em;
+    height: 1.7em;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 1.7em;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
 }

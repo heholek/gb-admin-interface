@@ -18,7 +18,9 @@ export class GbDropdownComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.gbs = this.gbService.gbs;
+    this.gbService.gbs.subscribe(gbs => {
+      this.gbs = gbs;
+    });
     this.selectedGb.emit(this.objectKeys(this.gbs)[0]);
   }
 

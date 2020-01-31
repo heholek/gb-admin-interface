@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  circle,
   latLng,
-  marker,
   tileLayer,
   polyline,
-  Layer,
   Polyline,
-  LeafletEvent,
   LeafletMouseEvent,
   LatLng,
 } from 'leaflet';
@@ -19,6 +15,7 @@ import {GbService, IGbs} from '../../../@core/backend/common/services/gb.service
   styleUrls: ['./gb-map.component.scss'],
 })
 export class GbMapComponent implements OnInit {
+  // Map settings
   options = {
     layers: [
       tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
@@ -28,47 +25,53 @@ export class GbMapComponent implements OnInit {
     center: latLng(38.586114, -121.351503),
   };
 
-  polyLineLayers: IGbPaths = {
-    gb1: polyline([[38.586114, -121.351503], [38.586216, -121.351503]]),
+  // Layers of Gb Paths
+  gbPaths: IGbPaths = {
+    gb1: polyline([[38.586114, -121.351503], [38.586216, -121.351503]], {color: 'red'}),
   };
 
-  get polyLineLayersAsArray(): Polyline[] {
-    return Object.values(this.polyLineLayers);
+  // Returns all the gb paths as an array instead of object for use in the leaflet map
+  get getGbPathsAsArray(): Polyline[] {
+    return Object.values(this.gbPaths);
   }
 
-  editMode: boolean = false;
-  addMode: boolean = false;
-  gbs: IGbs;
-  selectedGb: string = 'gb1';
-  objectKeys = Object.keys;
+  editMode: boolean = false; // edit mode (new line)
+  addMode: boolean = false; // add mode (add points to existing line)
+  gbs: IGbs; // all of users gbs initialized in on init
+  public selectedGb: string = 'gb1'; // username of which gb is selected
+  public objectKeys = Object.keys;
 
   constructor(
       private gbService: GbService,
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
-    this.gbs = this.gbService.gbs;
+    // Get all the users gbs
+    this.gbService.gbs.subscribe(v => {
+      this.gbs = v;
+      // Initialize all the gb layers
+      for (const gbsKey in this.gbs) {
+        // For testing, generates random path with color (will be last gb known path)
+        this.gbPaths[gbsKey] = polyline([[38.586114, -121.351503 + (Math.random() / 5000)], [38.586216, -121.351503]],
+            {color: this.gbs[gbsKey].color});
+      }
+    });
   }
 
   public buttonStatus(mode: boolean) {
     return (mode ? 'success' : 'danger');
   }
 
-  public toggleEditMode() {
-    this.editMode = !this.editMode;
-  }
+  public toggleEditMode() { this.editMode = !this.editMode; }
 
-  public toggleAddMode() {
-    this.addMode = !this.addMode;
-  }
+  public toggleAddMode() { this.addMode = !this.addMode; }
 
   private firstSelected: LatLng;
   private secondSelected: LatLng;
 
   public handleClick(event: LeafletMouseEvent) {
     if (this.editMode) {
-      this.polyLineLayers.gb1.addLatLng(event.latlng);
+      this.gbPaths[this.selectedGb].addLatLng(event.latlng);
     } else if (this.addMode) {
       this.addPolyLne(event.latlng);
     }
@@ -79,7 +82,7 @@ export class GbMapComponent implements OnInit {
       this.firstSelected = latlng;
     } else if (this.firstSelected && !this.secondSelected) {
       this.secondSelected = latlng;
-      this.polyLineLayers[this.selectedGb] = polyline([this.firstSelected, this.secondSelected]);
+      this.gbPaths[this.selectedGb] = polyline([this.firstSelected, this.secondSelected]);
       this.firstSelected = undefined;
       this.secondSelected = undefined;
       this.toggleAddMode();
@@ -87,15 +90,19 @@ export class GbMapComponent implements OnInit {
   }
 
   public existingLine(gb: string): boolean {
-    return gb in this.polyLineLayers;
+    return gb in this.gbPaths;
   }
 
   public clearPath(gb: string) {
-    delete this.polyLineLayers[gb];
+    delete this.gbPaths[gb];
   }
 
   public userSelect(selectedGb: string) {
     this.selectedGb = selectedGb;
+  }
+
+  public sendAction() {
+    // console.log(this.selectedGb);
   }
 
 }
