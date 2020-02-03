@@ -2,14 +2,14 @@
     <nb-card-body>
         <div class="row action-buttons">
             <div class="col-3">
-                <h3>Overall Actions</h3>
+                <h3>Overall</h3>
                 <button nbButton status="success">All Home</button>
                 <button nbButton status="warning">System Disable</button>
                 <button nbButton status="danger">Shutdown</button>
             </div>
             <div class="col-3">
                 <h4>Color Key</h4>
-                <div *ngFor="let gb of objectKeys(gbs)" class="float-left d-flex">
+                <div *ngFor="let gb  of objectKeys(gbs)" class="float-left d-flex">
                     <div [style.background-color]="gbs[gb].color" class="gb-map-key m-2">{{ gbs[gb].username }}</div>
                 </div>
             </div>

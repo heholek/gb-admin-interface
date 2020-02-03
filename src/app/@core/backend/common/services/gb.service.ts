@@ -80,7 +80,7 @@ class Gb {
       this.toastrService.danger(`${this.id} `, `Gb not connected :(`);
     });
     this.socket.on('connect', v => {
-      this.toastrService.success('${this.id} ', `Gb connected`);
+      this.toastrService.success(`${this.id}`, `Gb connected`);
       this.listenToGbPorts();
     });
 
