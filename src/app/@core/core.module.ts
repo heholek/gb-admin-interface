@@ -12,12 +12,14 @@ import { CommonBackendModule } from './backend/common/common-backend.module';
 import { UserStore } from './stores/user.store';
 import { UsersService } from './backend/common/services/users.service';
 import { InitUserService } from '../@theme/services/init-user.service';
+import {CsvDataService} from './utils/csvdata.service';
 
 export const NB_CORE_PROVIDERS = [
   ...CommonBackendModule.forRoot().providers,
 
   LayoutService,
   StateService,
+  CsvDataService,
 ];
 
 @NgModule({

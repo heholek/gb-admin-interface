@@ -8,6 +8,7 @@ import {
   LatLng,
 } from 'leaflet';
 import {GbService, IGbs} from '../../../@core/backend/common/services/gb.service';
+import {CsvDataService} from '../../../@core/utils/csvdata.service';
 
 @Component({
   selector: 'ngx-gb-map',
@@ -26,9 +27,7 @@ export class GbMapComponent implements OnInit {
   };
 
   // Layers of Gb Paths
-  gbPaths: IGbPaths = {
-    gb1: polyline([[38.586114, -121.351503], [38.586216, -121.351503]], {color: 'red'}),
-  };
+  gbPaths: IGbPaths = {};
 
   // Returns all the gb paths as an array instead of object for use in the leaflet map
   get getGbPathsAsArray(): Polyline[] {
@@ -43,6 +42,7 @@ export class GbMapComponent implements OnInit {
 
   constructor(
       private gbService: GbService,
+      private csvDataService: CsvDataService,
   ) { }
 
   ngOnInit() {
@@ -58,6 +58,14 @@ export class GbMapComponent implements OnInit {
     });
   }
 
+  /**
+   * Download the current path as a csv file with lat and lng columns
+   */
+  public downloadCsv() {
+    const latLongdata: LatLng[] = this.gbPaths[this.selectedGb].getLatLngs() as LatLng[];
+    this.csvDataService.exportToCsv('test.csv', latLongdata);
+  }
+
   public buttonStatus(mode: boolean) {
     return (mode ? 'success' : 'danger');
   }
@@ -69,17 +77,26 @@ export class GbMapComponent implements OnInit {
   private firstSelected: LatLng;
   private secondSelected: LatLng;
 
+  // Handle click event for the map
   public handleClick(event: LeafletMouseEvent) {
+    // If edit mode, add the path to existing path
     if (this.editMode) {
       this.gbPaths[this.selectedGb].addLatLng(event.latlng);
+    // Else create a new addmode
     } else if (this.addMode) {
       this.addPolyLne(event.latlng);
     }
   }
 
+  /**
+   * Add a new polyline for the current selected gb
+   * @param latlng
+   */
   private addPolyLne(latlng: LatLng) {
+    // If there's no first point selected, create it
     if (!this.firstSelected) {
       this.firstSelected = latlng;
+    // Otherwise add the second point, add it to the polyline layers, clear the selected, and toggle add mode3
     } else if (this.firstSelected && !this.secondSelected) {
       this.secondSelected = latlng;
       this.gbPaths[this.selectedGb] = polyline([this.firstSelected, this.secondSelected]);
