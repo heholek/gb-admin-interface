@@ -48,12 +48,16 @@ export class GbMapComponent implements OnInit {
   ngOnInit() {
     // Get all the users gbs
     this.gbService.gbs.subscribe(v => {
-      this.gbs = v;
-      // Initialize all the gb layers
-      for (const gbsKey in this.gbs) {
-        // For testing, generates random path with color (will be last gb known path)
-        this.gbPaths[gbsKey] = polyline([[38.586114, -121.351503 + (Math.random() / 5000)], [38.586216, -121.351503]],
-            {color: this.gbs[gbsKey].color});
+      if (Object.keys(v).length !== 0) {
+        this.gbs = v;
+        // Initialize all the gb layers
+        for (const gbsKey in this.gbs) {
+          // For testing, generates random path with color (will be last gb known path)
+          this.gbPaths[gbsKey] = polyline([[38.586114, -121.351503 + (Math.random() / 5000)], [38.586216, -121.351503]],
+              {color: this.gbs[gbsKey].color});
+        }
+      } else {
+        this.gbs = undefined;
       }
     });
   }

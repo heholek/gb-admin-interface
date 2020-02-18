@@ -4,13 +4,13 @@
         <ngx-gb-dropdown (selectedGb)="userSelect($event)"></ngx-gb-dropdown>
     </nb-card-header>
     <nb-card-body>
-        <nb-list *ngIf="dataStreams">
+        <nb-list *ngIf="gbs">
             <nb-list-item *ngFor="let dataStreamKey of objectKeys(dataStreams)" class="d-flex justify-content-between">
                 <span>{{dataStreamKey}}: </span>
                 <span class="bold">{{ data[dataStreamKey] || "Waiting..."}}</span>
             </nb-list-item>
         </nb-list>
-        <nb-alert status="warning" *ngIf="!dataStreams">Hmm... No data found. Try reselecting the Gb</nb-alert>
-        <nb-alert status="danger" *ngIf="!gbs">No gbs found for user!</nb-alert>
+        <nb-alert status="warning" *ngIf="!dataStreams && gbs">Hmm... No data found. Try reselecting the Gb</nb-alert>
+        <nb-alert accent="danger" *ngIf="!gbs">No GBs found for user!</nb-alert>
     </nb-card-body>
 </nb-card>

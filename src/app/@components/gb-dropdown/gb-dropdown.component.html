@@ -1,3 +1,5 @@
-<nb-select placeholder="Gb Name" [(selected)]="objectKeys(gbs)[0]" (selectedChange)="onSelect($event)" *ngIf="gbs">
-    <nb-option *ngFor="let gb of objectKeys(gbs)" [value]="gbs[gb].username">{{ gbs[gb].username}}</nb-option>
-</nb-select>
+<div *ngIf="gbs">
+    <nb-select placeholder="Gb Name" [(selected)]="objectKeys(gbs)[0]" (selectedChange)="onSelect($event)" *ngIf="gbs" [disabled]="disabled">
+        <nb-option *ngFor="let gb of objectKeys(gbs)" [value]="gbs[gb].username">{{ gbs[gb].username}}</nb-option>
+    </nb-select>
+</div>

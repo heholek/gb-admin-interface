@@ -23,8 +23,10 @@ export class GbSensorsComponent implements OnInit {
     this.gbService.gbs.subscribe(v => {
       this.gbs = v;
     });
-    if (this.gbs !== {}) {
+    if (Object.keys(this.gbs).length !== 0) {
       this.initDataStream(this.objectKeys(this.gbs)[0]);
+    } else {
+      this.gbs = undefined;
     }
   }
 

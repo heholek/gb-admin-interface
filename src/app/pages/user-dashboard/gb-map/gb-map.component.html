@@ -1,6 +1,6 @@
 <nb-card size="giant">
     <nb-card-body>
-        <div class="row action-buttons">
+        <div class="row action-buttons" *ngIf="gbs !== undefined">
             <div class="col-3">
                 <h3>Overall</h3>
                 <button nbButton status="success">All Home</button>
@@ -44,6 +44,7 @@
                 </div>
             </div>
         </div>
+        <nb-alert accent="danger" *ngIf="gbs === undefined">No GBs found for user!</nb-alert>
         <div class="leaflet"
             leaflet
             [leafletOptions]="options"

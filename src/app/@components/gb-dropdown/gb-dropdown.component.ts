@@ -1,5 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GbService, IGbs} from '../../@core/backend/common/services/gb.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'ngx-gb-dropdown',
@@ -9,6 +10,7 @@ import {GbService, IGbs} from '../../@core/backend/common/services/gb.service';
 export class GbDropdownComponent implements OnInit {
 
   @Output() selectedGb: EventEmitter<string> = new EventEmitter();
+  disabled: boolean = false;
   objectKeys = Object.keys;
 
   gbs: IGbs;
@@ -21,6 +23,9 @@ export class GbDropdownComponent implements OnInit {
     this.gbService.gbs.subscribe(gbs => {
       this.gbs = gbs;
     });
+    if (Object.keys(this.gbs).length === 0) {
+      this.disabled = true;
+    }
     this.selectedGb.emit(this.objectKeys(this.gbs)[0]);
   }
 
