@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserStore} from '../../@core/stores/user.store';
 
 @Component({
   selector: 'ngx-user-dashboard',
@@ -6,11 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserDashboardComponent implements OnInit {
 
+  private role: string;
+
   constructor(
+      private userStore: UserStore,
   ) {
   }
 
   ngOnInit() {
+    this.role = this.userStore.getUser().role;
+  }
+
+  public get isAdmin() {
+    return (this.role === 'admin');
   }
 
 }

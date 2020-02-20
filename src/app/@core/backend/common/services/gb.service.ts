@@ -12,9 +12,13 @@ const io = require('socket.io-client');
 export class GbService {
 
   // Array of gbs with key of username
-  private _gbs: BehaviorSubject<IGbs> = new BehaviorSubject<IGbs>({});
+  private _gbs: BehaviorSubject<Gbs> = new BehaviorSubject<Gbs>({});
 
-  get gbs(): Observable<IGbs> {
+  /**
+   * Returns all the users gbs
+   * @returns Observable<Gbs>
+   */
+  get gbs(): Observable<Gbs> {
     return this._gbs.asObservable();
   }
 
@@ -31,7 +35,7 @@ export class GbService {
     // Check if user authenticated
     if (this.authService.isAuthenticated() && this.userStore.getUserGbs()) {
       // tslint:disable-next-line:prefer-const
-      let newObject: IGbs = {};
+      let newObject: Gbs = {};
       this.userStore.getUserGbs().forEach(gb => {
         // Get all stored Gbs from the user and create new instance of Gb class
         newObject[gb.username] = new Gb(gb._id, gb.username, gb.color, this.toastrService);
@@ -141,6 +145,6 @@ interface INavSatFix {
   altitude: number;
 }
 // Loose object for defining object of Gbs
-export interface IGbs {
+export interface Gbs {
   [key: string]: Gb;
 }

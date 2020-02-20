@@ -7,7 +7,7 @@ import {
   NbIconModule,
   NbInputModule,
   NbListModule, NbSelectModule, NbStepperModule,
-  NbTableModule, NbToastrModule,
+  NbTableModule, NbToastrModule, NbToggleModule,
   NbTreeGridModule,
 } from '@nebular/theme';
 import {ThemeModule} from '../../@theme/theme.module';
@@ -20,6 +20,7 @@ import { GbSensorsComponent } from './gb-sensors/gb-sensors.component';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {LeafletDrawModule} from '@asymmetrik/ngx-leaflet-draw';
 import {ComponentsModule} from '../../@components/components.module';
+import { AdminComponent } from './admin/admin.component';
 
 
 const NB_MODULES = [
@@ -48,6 +49,7 @@ const NB_MODULES = [
     GbVideoComponent,
     GbMapComponent,
     GbSensorsComponent,
+    AdminComponent,
   ],
 
   imports: [
@@ -60,6 +62,7 @@ const NB_MODULES = [
     ...NB_MODULES,
     NbBadgeModule,
     ComponentsModule,
+    NbToggleModule,
   ],
 
   providers: [

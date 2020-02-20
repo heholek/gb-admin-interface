@@ -10,13 +10,13 @@
             <div class="col-3">
                 <h4>Color Key</h4>
                 <div *ngFor="let gb  of objectKeys(gbs)" class="float-left d-flex">
-                    <div [style.background-color]="gbs[gb].color" class="gb-map-key m-2">{{ gbs[gb].username }}</div>
+                    <div [style.background-color]="gbs[gb].color" class="gb-map-key m-2" (click)="handleBadgeClick(gbs[gb].username)">{{ gbs[gb].username }}</div>
                 </div>
             </div>
             <div class="col-6">
                 <div class="row">
                     <div class="col-6">
-                        <ngx-gb-dropdown (selectedGb)="userSelect($event)"></ngx-gb-dropdown>
+                        <ngx-gb-dropdown (outputSelectedGb)="userSelect($event)" [selectedGb]="selectedGb"></ngx-gb-dropdown>
                         <button nbButton
                                 class="w-100"
                                 (click)="toggleEditMode()"

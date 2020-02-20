@@ -7,7 +7,7 @@ import {
   LeafletMouseEvent,
   LatLng,
 } from 'leaflet';
-import {GbService, IGbs} from '../../../@core/backend/common/services/gb.service';
+import {GbService, Gbs} from '../../../@core/backend/common/services/gb.service';
 import {CsvDataService} from '../../../@core/utils/csvdata.service';
 
 @Component({
@@ -36,7 +36,7 @@ export class GbMapComponent implements OnInit {
 
   editMode: boolean = false; // edit mode (new line)
   addMode: boolean = false; // add mode (add points to existing line)
-  gbs: IGbs; // all of users gbs initialized in on init
+  gbs: Gbs; // all of users gbs initialized in on init
   public selectedGb: string = 'gb1'; // username of which gb is selected
   public objectKeys = Object.keys;
 
@@ -60,6 +60,10 @@ export class GbMapComponent implements OnInit {
         this.gbs = undefined;
       }
     });
+  }
+
+  public handleBadgeClick(selectedGb: string) {
+    this.selectedGb = selectedGb;
   }
 
   /**

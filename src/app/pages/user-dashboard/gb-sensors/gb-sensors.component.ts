@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {GbService, IGbs} from '../../../@core/backend/common/services/gb.service';
+import {GbService, Gbs} from '../../../@core/backend/common/services/gb.service';
 
 @Component({
   selector: 'ngx-gb-sensors',
@@ -9,7 +9,7 @@ import {GbService, IGbs} from '../../../@core/backend/common/services/gb.service
 export class GbSensorsComponent implements OnInit {
 
   objectKeys = Object.keys; // Method to convert objects into array of keys
-  gbs: IGbs; // List of Gbs
+  gbs: Gbs; // List of Gbs
   dataStreams: any; // Datastreams from the gb
   data = {}; // Data for display
   subscriber = {}; // Object of observables to track whats online and whats offline
@@ -17,7 +17,7 @@ export class GbSensorsComponent implements OnInit {
   constructor(
       private gbService: GbService,
   ) { }
-
+  // TODO move dropdown initialization and data into a new component (WET CODE) and seperate logic and display
   ngOnInit() {
     // Initialize the first Gb in the set
     this.gbService.gbs.subscribe(v => {
@@ -33,6 +33,7 @@ export class GbSensorsComponent implements OnInit {
   /**
    * Handles selected a new gb
    * @param selectedGb - username of gb
+   * TODO WET AF
    */
   userSelect(selectedGb: string) {
     this.clearSubscriptions();
@@ -52,6 +53,9 @@ export class GbSensorsComponent implements OnInit {
     }
   }
 
+  /**
+   * Initializes Socket subscribers for data
+   */
   private initializeDataSubscribers() {
     for (const dataStreamsKey in this.dataStreams) {
       // Sets to list of subscribers for unsubcription later
