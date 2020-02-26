@@ -1,5 +1,6 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GbService, IGbs} from '../../@core/backend/common/services/gb.service';
+import {UserStore} from '../../@core/stores/user.store';
 
 @Component({
   selector: 'ngx-user-dashboard',
@@ -7,6 +8,7 @@ import {GbService, IGbs} from '../../@core/backend/common/services/gb.service';
 })
 export class UserDashboardComponent implements OnInit {
 
+  private role: string;
   private body: HTMLBodyElement;
   x;
   y;
@@ -15,6 +17,7 @@ export class UserDashboardComponent implements OnInit {
 
   constructor(
       public gbService: GbService,
+      private userStore: UserStore,
   ) { }
 
   ngOnInit() {
@@ -28,6 +31,11 @@ export class UserDashboardComponent implements OnInit {
     this.gbService.gbs.subscribe(gbs => {
       this.gbs = gbs;
     });
+    this.role = this.userStore.getUser().role;
+  }
+
+  public get isAdmin() {
+    return (this.role === 'admin');
   }
 
   private handleKey(keyCode, keyDown) {

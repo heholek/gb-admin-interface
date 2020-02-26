@@ -1,0 +1,17 @@
+<nb-card size="medium">
+    <nb-card-header class="d-flex justify-content-between">
+        <span class="mt-2">Admin Panel</span>
+        <ngx-gb-dropdown (outputSelectedGb)="userSelect($event)"></ngx-gb-dropdown>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-6">
+                <nb-toggle>Data Collection Mode</nb-toggle>
+                <button nbButton>Send CSV to GarbageByte</button>
+            </div>
+            <div class="col-6">
+                Logs:
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

@@ -1,7 +1,7 @@
 <nb-card size="medium">
     <nb-card-header class="d-flex justify-content-between">
         <span class="mt-2">Live Sensor Data</span>
-        <ngx-gb-dropdown (selectedGb)="userSelect($event)"></ngx-gb-dropdown>
+        <ngx-gb-dropdown (outputSelectedGb)="userSelect($event)"></ngx-gb-dropdown>
     </nb-card-header>
     <nb-card-body>
         <nb-list *ngIf="gbs">
