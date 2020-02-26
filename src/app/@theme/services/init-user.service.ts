@@ -11,8 +11,16 @@ export class InitUserService {
         private gbService: GbService) { }
 
     initCurrentUser() {
+        // Check if ther'es a logged in user
         if (localStorage.getItem('gbUser')) {
+            // Set user in store class
             this.userStore.setUser(JSON.parse(localStorage.getItem('gbUser')));
+            const currentUserId = this.userStore.getUser()._id;
+            // Update the user from server
+            this.userService.get(currentUserId).subscribe(updatedUser => {
+                this.userStore.setUser(updatedUser);
+            });
+            // Update the users gbs
             this.userService.getUserGbs(this.userStore.getUser()._id).subscribe(v => {
                 this.userStore.setUserGbs(v);
                 this.gbService.listenToUserGbs();
