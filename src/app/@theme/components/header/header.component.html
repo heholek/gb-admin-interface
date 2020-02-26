@@ -13,6 +13,16 @@
 </div>
 
 <div class="header-container">
+  <nb-icon icon="question-mark-circle-outline"
+           nbTooltip="Control the selected GB using your keyboard
+                              Use 'w' to move forward, 'a' and 'd' to turn left and right respectively"
+           nbTooltipStatus="primary"
+  ></nb-icon>
+  <h5 class="sub">Selected GB for Teleop</h5>
+  <ngx-gb-dropdown (outputSelectedGb)="selectGb($event)"></ngx-gb-dropdown>
+</div>
+
+<div class="header-container">
   <nb-actions size="small">
     <nb-action class="user-action">
       <nb-user [nbContextMenu]="userMenu"

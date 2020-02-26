@@ -5,6 +5,7 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { UserStore } from '../../../@core/stores/user.store';
+import {TeleopService} from '../../../@core/utils/teleop.service';
 
 @Component({
   selector: 'ngx-header',
@@ -45,7 +46,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private menuService: NbMenuService,
               private themeService: NbThemeService,
               private userStore: UserStore,
-              private layoutService: LayoutService) {
+              private layoutService: LayoutService,
+              private teleopService: TeleopService) {
   }
 
   // Gets menu items for the user dropdown
@@ -106,5 +108,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navigateHome() {
     this.menuService.navigateHome();
     return false;
+  }
+
+  selectGb(gb: string) {
+    this.teleopService.publishTeleop(gb);
   }
 }

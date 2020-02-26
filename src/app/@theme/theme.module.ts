@@ -12,7 +12,7 @@ import {
   NbSelectModule,
   NbIconModule,
   NbSpinnerModule,
-  NbThemeModule,
+  NbThemeModule, NbTooltipModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -42,6 +42,7 @@ import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 import {EvaIconsPipe} from './pipes/eva-icons.pipe';
 import {RouterModule} from '@angular/router';
+import {ComponentsModule} from '../@components/components.module';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -75,7 +76,7 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, AuthModule, ...NB_MODULES, RouterModule],
+  imports: [CommonModule, AuthModule, ...NB_MODULES, RouterModule, ComponentsModule, NbTooltipModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })

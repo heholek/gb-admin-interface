@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Gbs, GbService} from '../backend/common/services/gb.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TeleopService {
 
@@ -11,6 +11,7 @@ export class TeleopService {
   z;
   gbs: Gbs;
   private body: HTMLBodyElement;
+  selectedGb: string;
 
   constructor(
       private gbService: GbService,
@@ -22,7 +23,8 @@ export class TeleopService {
 
   }
 
-  publishTeleop() {
+  publishTeleop(selectedGb: string) {
+    this.selectedGb = selectedGb;
     this.body.addEventListener('keydown', (event) => {
       this.handleKey(event.keyCode, true);
     });
@@ -94,7 +96,7 @@ export class TeleopService {
       };
 
       // check for changes
-      this.gbs['gb1'].pubToGbActionStream('move', rosObject);
+      this.gbs[this.selectedGb].pubToGbActionStream('move', rosObject);
 
       if (oldX !== this.x || oldY !== this.y || oldZ !== this.z) {
         // that.emit('change', twist);

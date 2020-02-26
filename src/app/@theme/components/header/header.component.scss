@@ -55,6 +55,15 @@
       white-space: nowrap;
       text-decoration: none;
     }
+
+    .sub {
+      padding: 0 1.25rem !important;
+      font-size: 1.25rem !important;
+      font-weight: normal !important;
+      padding-top: .5em !important;
+      white-space: nowrap;
+      text-decoration: none;
+    }
   }
 
   @include media-breakpoint-down(sm) {
