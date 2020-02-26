@@ -1,8 +1,9 @@
 <nb-card size="medium">
     <nb-card-header class="d-flex justify-content-between">
         <span class="mt-2">Live Camera Feed</span>
-        <ngx-gb-dropdown></ngx-gb-dropdown>
+        <ngx-gb-dropdown (outputSelectedGb)="selectGb($event)"></ngx-gb-dropdown>
     </nb-card-header>
     <nb-card-body>
+        <img [src]="imageSourceIp" alt="" class="w-100">
     </nb-card-body>
 </nb-card>

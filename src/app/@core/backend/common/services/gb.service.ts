@@ -38,7 +38,7 @@ export class GbService {
       let newObject: Gbs = {};
       this.userStore.getUserGbs().forEach(gb => {
         // Get all stored Gbs from the user and create new instance of Gb class
-        newObject[gb.username] = new Gb(gb._id, gb.username, gb.color, this.toastrService);
+        newObject[gb.username] = new Gb(gb._id, gb.username, gb.color, gb.ip, this.toastrService);
       });
       this._gbs.next(newObject);
     }
@@ -73,6 +73,7 @@ class Gb {
       public id: string, // Wto set id
       public username: string,
       public color: string, // color of the gb on the map
+      public ip: string,
       private toastrService: NbToastrService,
   ) {
 

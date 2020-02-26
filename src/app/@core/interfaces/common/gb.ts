@@ -9,6 +9,7 @@ export interface Gb {
   updatedAt?: string; // When updated
   version?: string; // Software version of Gb
   videoLink?: string; // Link to rtsp video stream
+  ip?: string; // IP of the garbage byte
 }
 
 export abstract class GbData {

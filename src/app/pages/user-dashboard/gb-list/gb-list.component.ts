@@ -30,6 +30,10 @@ export class GbListComponent implements OnInit {
         title: 'Name',
         type: 'string',
       },
+      ip: {
+        title: 'IP',
+        type: 'string',
+      },
       statusCode: {
         title: 'Status Code',
         type: 'string', // TODO see below and change type to html
