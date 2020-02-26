@@ -123,7 +123,7 @@ export class GbMapComponent implements OnInit {
    * Sends the current CSV LatLong Data to the Gb
    */
   public sendCsvToGb() {
-    this.gbs[this.selectedGb].pubToGbActionStream('csv', this.gbPaths[this.selectedGb].getLatLngs() as LatLng[])
+    this.gbs[this.selectedGb].pubToGbActionStream('csv', this.gbPaths[this.selectedGb].getLatLngs() as LatLng[]);
   }
 
   public existingLine(gb: string): boolean {
