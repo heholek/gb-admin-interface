@@ -63,7 +63,7 @@ class Gb {
     numberOfSatellites: new GbDataStreams<IRosNumber>('number_of_satellites'),
   };
 
-  private socket: any; // Socket.io instance
+  socket; // Socket.io instance
 
   constructor(
       public id: string, // Wto set id
@@ -74,7 +74,7 @@ class Gb {
 
     // Connect to socket stream
     this.socket = io(`http://localhost:8000/${this.id}`, {
-      query: { role: 'gb', username: 'gb2', password: 'gb' },
+      query: { role: 'gb', username: 'gb1', password: 'gb' },
     });
     this.socket.on('error', v => {
       this.toastrService.danger(`${this.id} `, `Gb not connected :(`);
@@ -100,6 +100,19 @@ class Gb {
         });
       }
     }
+  }
+
+  /**
+   * Publish data to gb action stream
+   * @param actionType <string> - the type of action being sent
+   * @param data: any message you want to send, normally rostopic
+   * @param channel <string> Optional channel to publish to for socket. Default action
+   */
+  public pubToGbActionStream(actionType: string, data: any, channel: string = 'action') {
+    // console.log(data);
+    this.socket.emit(channel, {type: actionType, data: data}, t => {
+      // console.log(t);
+    });
   }
 }
 
