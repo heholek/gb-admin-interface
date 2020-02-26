@@ -9,6 +9,7 @@ import {
 } from 'leaflet';
 import {GbService, Gbs} from '../../../@core/backend/common/services/gb.service';
 import {CsvDataService} from '../../../@core/utils/csvdata.service';
+import {UserStore} from '../../../@core/stores/user.store';
 
 @Component({
   selector: 'ngx-gb-map',
@@ -39,10 +40,12 @@ export class GbMapComponent implements OnInit {
   gbs: Gbs; // all of users gbs initialized in on init
   public selectedGb: string = 'gb1'; // username of which gb is selected
   public objectKeys = Object.keys;
+  userIsAdmin: boolean;
 
   constructor(
       private gbService: GbService,
       private csvDataService: CsvDataService,
+      private userStore: UserStore,
   ) { }
 
   ngOnInit() {
@@ -60,6 +63,8 @@ export class GbMapComponent implements OnInit {
         this.gbs = undefined;
       }
     });
+
+    this.userIsAdmin = (this.userStore.getUser().role === 'admin');
   }
 
   public handleBadgeClick(selectedGb: string) {
@@ -112,6 +117,13 @@ export class GbMapComponent implements OnInit {
       this.secondSelected = undefined;
       this.toggleAddMode();
     }
+  }
+
+  /**
+   * Sends the current CSV LatLong Data to the Gb
+   */
+  public sendCsvToGb() {
+    this.gbs[this.selectedGb].pubToGbActionStream('csv', this.gbPaths[this.selectedGb].getLatLngs() as LatLng[])
   }
 
   public existingLine(gb: string): boolean {

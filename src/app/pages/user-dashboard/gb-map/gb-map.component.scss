@@ -3,7 +3,7 @@
 
 @include nb-install-component() {
   .leaflet {
-    height: 700px;
+    height: 675px;
 
     @extend .rounded;
   }

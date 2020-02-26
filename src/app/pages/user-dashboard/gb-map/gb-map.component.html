@@ -1,21 +1,21 @@
 <nb-card size="giant">
     <nb-card-body>
         <div class="row action-buttons" *ngIf="gbs !== undefined">
-            <div class="col-3">
+            <div class="col-md-3 col-sm-12">
                 <h3>Overall</h3>
                 <button nbButton status="success">All Home</button>
                 <button nbButton status="warning">System Disable</button>
                 <button nbButton status="danger">Shutdown</button>
             </div>
-            <div class="col-3">
+            <div class="col-md-3 col-sm-12">
                 <h4>Color Key</h4>
                 <div *ngFor="let gb  of objectKeys(gbs)" class="float-left d-flex">
                     <div [style.background-color]="gbs[gb].color" class="gb-map-key m-2" (click)="handleBadgeClick(gbs[gb].username)">{{ gbs[gb].username }}</div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-md-6 col-sm-12">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <ngx-gb-dropdown (outputSelectedGb)="userSelect($event)" [selectedGb]="selectedGb"></ngx-gb-dropdown>
                         <button nbButton
                                 class="w-100"
@@ -36,10 +36,11 @@
                                 [disabled]="!existingLine(this.selectedGb)"
                         >Clear Path</button>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <nb-alert [style.background-color]="gbs[selectedGb].color" class="color-label text-center">Color</nb-alert>
-                        <button nbButton status="primary" class="w-100" (click)="sendAction()">Send action to GB</button>
-                        <button nbButton status="primary" class="w-100" (click)="downloadCsv()">Download Path CSV</button>
+                        <button nbButton status="primary" class="w-100" (click)="sendAction()">Send Action</button>
+                        <button nbButton status="primary" class="w-100" (click)="downloadCsv()">CSV</button>
+                        <button nbButton status="primary" class="w-100" (click)="sendCsvToGb()" *ngIf="userIsAdmin">CSV to GB</button>
                     </div>
                 </div>
             </div>

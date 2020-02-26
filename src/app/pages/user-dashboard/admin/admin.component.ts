@@ -9,7 +9,11 @@ import {GbService, Gbs} from '../../../@core/backend/common/services/gb.service'
 export class AdminComponent implements OnInit {
 
   gbs: Gbs;
-  selectedGb: string;
+  selectedGbName: string;
+
+  get selectedGb() {
+    return this.gbs[this.selectedGbName];
+  }
 
   constructor(
       private gbService: GbService,
@@ -28,11 +32,15 @@ export class AdminComponent implements OnInit {
    * @param selectedGb - username of gb
    */
   userSelect(selectedGb: string) {
-    this.selectedGb = selectedGb;
+    this.selectedGbName = selectedGb;
   }
 
-  public startDataCollection() {
-
+  /**
+   * Send GB over socket.io to start collecting data
+   * @param event <boolean> whether toggle is enabled or not
+   */
+  public startDataCollection(event) {
+    this.selectedGb.pubToGbActionStream('dataCollectionMode', event)
   }
 
 

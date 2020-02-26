@@ -75,6 +75,10 @@
       border: none;
       padding: 0;
     }
+
+    .teleop-settings {
+      display: none;
+    }
   }
 
   @include media-breakpoint-down(is) {
