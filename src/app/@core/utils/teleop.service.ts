@@ -34,10 +34,6 @@ export class TeleopService {
   }
 
   private handleKey(keyCode, keyDown) {
-    // used to check for changes in speed
-    const oldX = this.x;
-    const oldY = this.y;
-    const oldZ = this.z;
 
     let pub = true;
 
@@ -46,6 +42,7 @@ export class TeleopService {
     if (keyDown === true) {
       speed = 1;
     }
+
     // check which key was pressed
     switch (keyCode) {
       case 65:
@@ -56,7 +53,7 @@ export class TeleopService {
       case 87:
       case 38:
         // up
-        this.x = 0.5 * speed;
+        this.x = speed;
         break;
       case 68:
       case 39:
@@ -66,15 +63,7 @@ export class TeleopService {
       case 83:
       case 40:
         // down
-        this.x = -0.5 * speed;
-        break;
-      case 69:
-        // strafe right
-        this.y = -0.5 * speed;
-        break;
-      case 81:
-        // strafe left
-        this.y = 0.5 * speed;
+        this.x = -1 * speed;
         break;
       default:
         pub = false;
@@ -82,26 +71,25 @@ export class TeleopService {
 
     // publish the command
     if (pub === true) {
-      const rosObject = {
-        angular: {
-          x: 0,
-          y: 0,
-          z: this.z,
-        },
-        linear: {
-          x: this.x,
-          y: this.y,
-          z: this.z,
-        },
-      };
-
-      // check for changes
-      this.gbs[this.selectedGb].pubToGbActionStream('move', rosObject);
-
-      if (oldX !== this.x || oldY !== this.y || oldZ !== this.z) {
-        // that.emit('change', twist);
-      }
+      this.sendDriveCommandTwist();
     }
+  }
+
+  private sendDriveCommandTwist() {
+    const twistMessage = {
+      angular: {
+        x: 0,
+        y: 0,
+        z: this.z,
+      },
+      linear: {
+        x: this.x,
+        y: this.y,
+        z: this.z,
+      },
+    };
+
+    this.gbs[this.selectedGb].pubToGbActionStream('moveTwist', twistMessage);
   }
 
 }
