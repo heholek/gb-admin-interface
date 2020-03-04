@@ -9,6 +9,7 @@ export class TeleopService {
   x;
   y;
   z;
+  faceNumber;
   gbs: Gbs;
   private body: HTMLBodyElement;
   selectedGb: string;
@@ -65,6 +66,16 @@ export class TeleopService {
         // down
         this.x = -1 * speed;
         break;
+      // Face Commands
+      case 2: // '1' key
+        this.faceNumber = 1;
+        break;
+      case 3: // '1' key
+        this.faceNumber = 2;
+        break;
+      case 4: // '1' key
+        this.faceNumber = 3;
+        break;
       default:
         pub = false;
     }
@@ -89,7 +100,7 @@ export class TeleopService {
       },
     };
 
-    this.gbs[this.selectedGb].pubToGbActionStream('moveTwist', twistMessage);
+    this.gbs[this.selectedGb].pubToGbActionStream('move', twistMessage);
   }
 
 }

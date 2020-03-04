@@ -5,7 +5,7 @@ import {
   polyline,
   Polyline,
   LeafletMouseEvent,
-  LatLng,
+  LatLng, circle,
 } from 'leaflet';
 import {GbService, Gbs} from '../../../@core/backend/common/services/gb.service';
 import {CsvDataService} from '../../../@core/utils/csvdata.service';
@@ -23,8 +23,8 @@ export class GbMapComponent implements OnInit {
       tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
           { maxZoom: 21, attribution: '...' }),
     ],
-    zoom: 21,
-    center: latLng(38.586114, -121.351503),
+    zoom: 19,
+    center: latLng(38.586298044283105, -121.35166610449501),
   };
 
   // Layers of Gb Paths
@@ -55,9 +55,13 @@ export class GbMapComponent implements OnInit {
         this.gbs = v;
         // Initialize all the gb layers
         for (const gbsKey in this.gbs) {
-          // For testing, generates random path with color (will be last gb known path)
-          this.gbPaths[gbsKey] = polyline([[38.586114, -121.351503 + (Math.random() / 5000)], [38.586216, -121.351503]],
-              {color: this.gbs[gbsKey].color});
+          this.gbs[this.selectedGb].dataStreams.position.data.subscribe(a => {
+            this.gbPaths[this.gbs[this.selectedGb].username + '-location'] = circle([a.latitude, a.longitude],
+                {radius: 5, color: this.gbs[this.selectedGb].color});
+          });
+          // this.gbPaths[gbsKey] = polyline([[38.586114, -121.351503 + (Math.random() / 5000)],
+          // [38.586216, -121.351503]],
+          //     {color: this.gbs[gbsKey].color});
         }
       } else {
         this.gbs = undefined;
@@ -76,7 +80,7 @@ export class GbMapComponent implements OnInit {
    */
   public downloadCsv() {
     const latLongdata: LatLng[] = this.gbPaths[this.selectedGb].getLatLngs() as LatLng[];
-    this.csvDataService.exportToCsv('test.csv', latLongdata);
+    this.csvDataService.exportToCsv(this.selectedGb + '-points.csv', latLongdata);
   }
 
   public buttonStatus(mode: boolean) {
@@ -145,5 +149,5 @@ export class GbMapComponent implements OnInit {
 }
 
 interface IGbPaths {
-  [key: string]: Polyline;
+  [key: string]: any;
 }
