@@ -3,6 +3,7 @@ import {NbAuthService} from '@nebular/auth';
 import {UserStore} from '../../../stores/user.store';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {NbToastrService} from '@nebular/theme';
+import {environment} from '../../../../../environments/environment';
 
 const io = require('socket.io-client');
 
@@ -76,9 +77,10 @@ class Gb {
       public ip: string,
       private toastrService: NbToastrService,
   ) {
+    const socketUrl = environment.socketUrl;
 
     // Connect to socket stream
-    this.socket = io(`http://localhost:8000/${this.id}`, {
+    this.socket = io(`${socketUrl}/${this.id}`, {
       query: { role: 'gb', username: 'gb1', password: 'gb' },
     });
     this.socket.on('error', v => {
