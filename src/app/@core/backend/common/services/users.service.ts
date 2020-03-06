@@ -20,6 +20,7 @@ export class UsersService extends UserData {
   }
 
   getUserGbs(id?: string): Observable<Gb[]> {
+    // console.log("Getting user gb");
     if (id !== undefined) {
       return this.api.getUserGbs(id);
     } else {

@@ -8,9 +8,6 @@ import {UserStore} from '../../@core/stores/user.store';
 export class UserDashboardComponent implements OnInit {
 
   private role: string;
-  x;
-  y;
-  z;
 
   constructor(
       private userStore: UserStore,

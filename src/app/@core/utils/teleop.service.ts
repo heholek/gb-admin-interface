@@ -6,9 +6,14 @@ import {Gbs, GbService} from '../backend/common/services/gb.service';
 })
 export class TeleopService {
 
-  x;
-  y;
-  z;
+  x; // Integer from -1 to 1. forward backwards speed
+  z; // Integer from -1 to 1, rotation speed
+  defaultFace: boolean;
+  angerFace: boolean;
+  happyFace: boolean;
+  siren: boolean;
+  enableMovement: boolean = true;
+
   gbs: Gbs;
   private body: HTMLBodyElement;
   selectedGb: string;
@@ -33,11 +38,17 @@ export class TeleopService {
     });
   }
 
+  private boolToInt(state: boolean): number {
+    return state ? 1 : 0;
+  }
+
+  private resetFaces() {
+    this.defaultFace = false;
+    this.angerFace = false;
+    this.happyFace = false;
+  }
+
   private handleKey(keyCode, keyDown) {
-    // used to check for changes in speed
-    const oldX = this.x;
-    const oldY = this.y;
-    const oldZ = this.z;
 
     let pub = true;
 
@@ -68,13 +79,20 @@ export class TeleopService {
         // down
         this.x = -0.5 * speed;
         break;
-      case 69:
-        // strafe right
-        this.y = -0.5 * speed;
+      case 48:
+        this.siren = !this.siren;
         break;
-      case 81:
-        // strafe left
-        this.y = 0.5 * speed;
+      case 49:
+        this.resetFaces();
+        this.defaultFace = !this.defaultFace;
+        break;
+      case 50:
+        this.resetFaces();
+        this.happyFace = !this.happyFace;
+        break;
+      case 51:
+        this.resetFaces();
+        this.angerFace = !this.angerFace;
         break;
       default:
         pub = false;
@@ -83,24 +101,14 @@ export class TeleopService {
     // publish the command
     if (pub === true) {
       const rosObject = {
-        angular: {
-          x: 0,
-          y: 0,
-          z: this.z,
-        },
-        linear: {
-          x: this.x,
-          y: this.y,
-          z: this.z,
-        },
+        axes: [this.z, this.x, 0, 0, 0, 0, 0],
+        buttons: [
+          this.boolToInt(this.angerFace), this.boolToInt(this.siren), this.boolToInt(this.enableMovement), 0,
+          this.boolToInt(this.defaultFace), this.boolToInt(this.happyFace)],
       };
 
       // check for changes
-      this.gbs[this.selectedGb].pubToGbActionStream('move', rosObject);
-
-      if (oldX !== this.x || oldY !== this.y || oldZ !== this.z) {
-        // that.emit('change', twist);
-      }
+      this.gbs[this.selectedGb].pubToGbActionStream('joy', rosObject);
     }
   }
 
