@@ -1,0 +1,94 @@
+
+
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>GB Admin Software</title>
+
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="stylesheet" href="styles.19d1c9db3cbfa74e8ea2.css"></head>
+<body>
+  <ngx-app>
+  </ngx-app>
+
+  <style>
+    body{
+      margin: 0;
+      background-color: #151A31;
+    }
+    .wrapper{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      min-width: 100vw;
+    }
+    .loader{
+      border-radius: 50%;
+      position: relative;
+      margin: 50px;
+      display: inline-block;
+      height: 0px;
+      width: 0px;
+    }
+
+    .loader span{
+      position: absolute;
+      display: block;
+      background: #ddd;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      top: -20px;
+      perspective: 100000px;
+    }
+    .loader span:nth-child(1) {
+      left:60px;
+      animation: bounce2 1s cubic-bezier(0.04, 0.35, 0, 1) infinite;
+      animation-delay: 0s;
+      background: #ff756f;
+    }
+    .loader span:nth-child(2) {
+      left:20px;
+      animation: bounce2 1s cubic-bezier(0.04, 0.35, 0, 1) infinite;
+      animation-delay: .2s;
+      background: #ffde6f;
+    }
+    .loader span:nth-child(3) {
+      left:-20px;
+      animation: bounce2 1s cubic-bezier(0.04, 0.35, 0, 1) infinite;
+      animation-delay: .4s;
+      background: #01de6f;
+    }
+    .loader span:nth-child(4) {
+      left: -60px;
+      animation: bounce2 1s cubic-bezier(0.04, 0.35, 0, 1) infinite;
+      animation-delay: .6s;
+      background: #6f75ff;
+    }
+
+    @keyframes bounce2 {
+      0%, 75%, 100% {
+        transform: translateY(0px);
+      }
+      25% {
+        transform: translateY(-30px);
+      }
+    }
+  </style>
+<!--  <div class="loader spinner" id="nb-global-spinner">Loading...</div>-->
+  <section class="wrapper spinner" id="nb-global-spinner">
+    <div class="loader">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </section>
+
+<script src="runtime-es2015.b3ed76126d27af600913.js" type="module"></script><script src="runtime-es5.b3ed76126d27af600913.js" nomodule defer></script><script src="polyfills-es5.8f8ed24806381292cea8.js" nomodule defer></script><script src="polyfills-es2015.7bad4838fae5e9d24828.js" type="module"></script><script src="scripts.45c9c06609ecea4b1794.js" defer></script><script src="main-es2015.799856328704970fa001.js" type="module"></script><script src="main-es5.799856328704970fa001.js" nomodule defer></script></body>
+</html>
