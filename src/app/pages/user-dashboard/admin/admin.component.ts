@@ -40,7 +40,7 @@ export class AdminComponent implements OnInit {
    * @param event <boolean> whether toggle is enabled or not
    */
   public startDataCollection(event) {
-    this.selectedGb.pubToGbActionStream('dataCollectionMode', event)
+    this.selectedGb.pubToGbActionStream('dataCollectionMode', event);
   }
 
 
